@@ -1,4 +1,5 @@
 import { state } from "./state.js";
+import { renderCurrentStudy } from "./render.js";
 
 /**
  * Keyword highlight palette (requested).
@@ -107,12 +108,11 @@ export function renderChips() {
     const x = document.createElement("button");
     x.className = "x";
     x.textContent = "×";
-    x.addEventListener("click", () => {
-      removeHighlightRule(h.term);
-      // report re-render is handled by caller (renderCurrentStudy), but do it defensively:
-      const reportEl = document.getElementById("report");
-      if (reportEl) renderReportInto(reportEl, "");
-    });
+x.addEventListener("click", () => {
+  removeHighlightRule(h.term);
+  renderCurrentStudy();   // <-- re-render immediately
+});
+
 
     chip.appendChild(swatch);
     chip.appendChild(label);
