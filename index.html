@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Study Review Tool</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="container">
+
+    <!-- Upload Card -->
+    <div class="card">
+      <div class="row">
+        <div class="grow">
+          <div class="title">Study Review</div>
+          <div class="muted">Use a default Atlas generated CSV.</div>
+        </div>
+        <div>
+          <input id="file" type="file" accept=".csv,text/csv" class="btn" style="padding:8px;" />
+        </div>
+      </div>
+      <div id="loadError" class="error" style="display:none;"></div>
+
+      <div class="hint" style="margin-top:10px;">
+        Required columns:
+        <span class="kbd">row_id</span>,
+        <span class="kbd">accession_number</span>,
+        <span class="kbd">patient_id</span>,
+        <span class="kbd">deid_english_report</span>
+      </div>
+    </div>
+
+    <div id="app" style="display:none;">
+      <!-- Header / progress -->
+      <div class="card">
+        <div class="row" style="justify-content:space-between;">
+          <div>
+            <div class="title" style="margin-bottom:2px;">Reviewing <span id="pos">-</span> of <span id="total">-</span></div>
+            <div class="muted">
+              Reviewed: <b id="cReviewed">0</b> &nbsp;|&nbsp;
+              Keep: <b id="cKeep">0</b> &nbsp;|&nbsp;
+              Discard: <b id="cDiscard">0</b> &nbsp;|&nbsp;
+              Unreviewed: <b id="cUnreviewed">0</b>
+            </div>
+          </div>
+
+          <div class="row" style="gap:8px;">
+            <div class="muted">Go to</div>
+            <input id="goto" type="number" min="1" step="1" />
+            <button id="goBtn" class="btn btn-ghost">Go</button>
+            <button id="exportBtn" class="btn btn-primary">Export ALL (CSV)</button>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <div class="progress"><div id="bar" class="bar"></div></div>
+          <div id="gotoError" class="error" style="display:none;"></div>
+          <div class="hint" style="margin-top:8px;">
+            Shortcuts: <span class="kbd">Y</span>=Keep, <span class="kbd">N</span>=Discard, <span class="kbd">←</span>=Prev, <span class="kbd">→</span>=Next
+          </div>
+        </div>
+      </div>
+
+      <!-- Context -->
+      <div class="card">
+        <div class="row" style="justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div class="title" style="margin-bottom:2px;">
+              Accession Number: <span id="accessionTitle">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:10px;">
+          <div class="field">
+            <div class="label">Patient Sex</div>
+            <div id="sex" class="value">-</div>
+          </div>
+
+          <div class="field">
+            <div class="label">Patient Age</div>
+            <div id="age" class="value">-</div>
+          </div>
+
+          <div class="field">
+            <div class="label">Modality</div>
+            <div id="modality" class="value">-</div>
+          </div>
+
+          <div class="field">
+            <div class="label">Body Part Examined</div>
+            <div id="bodyPart" class="value">-</div>
+          </div>
+
+          <div class="field">
+            <div class="label">Study Date</div>
+            <div id="date" class="value">-</div>
+          </div>
+
+          <div class="field">
+            <div class="label">Institution</div>
+            <div id="institution" class="value">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Report -->
+      <div class="card">
+        <div class="row" style="justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div class="title" style="margin-bottom:2px;">Report</div>
+            <div class="muted">Highlight up to 5 keywords across studies.</div>
+          </div>
+          <div>
+            <div id="decisionPill" class="pill none" style="margin-top:2px;">
+              <span id="decisionText">Unreviewed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyword highlight bar -->
+        <div style="margin-top:10px;">
+          <div class="hlbar">
+            <input id="kwInput" type="text" placeholder="Find / highlight keyword…" class="btn"
+                   style="padding:10px 12px; width:280px; text-align:left; font-weight:600;" />
+            <select id="kwColor" class="btn" style="padding:10px 12px; font-weight:700;">
+              <option value="yellow">Yellow</option>
+              <option value="green">Green</option>
+              <option value="red">Red</option>
+              <option value="purple">Purple</option>
+              <option value="blue">Blue</option>
+            </select>
+            <button id="kwAddBtn" class="btn btn-ghost">Add</button>
+            <span id="kwHint" class="hint"></span>
+          </div>
+
+          <div id="kwChips" class="hlchips"></div>
+        </div>
+
+        <div id="report" class="report-render" style="margin-top:10px;">-</div>
+      </div>
+
+      <!-- Controls -->
+      <div class="card">
+        <div class="row" style="justify-content:space-between;">
+          <button id="prevBtn" class="btn">← Prev</button>
+
+          <div class="row" style="gap:10px;">
+            <button id="keepBtn" class="btn btn-keep">Keep (Y)</button>
+            <button id="discardBtn" class="btn btn-discard">Discard (N)</button>
+          </div>
+
+          <button id="nextBtn" class="btn">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSV parser dependency (kept simple: CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <!-- App entrypoint -->
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
