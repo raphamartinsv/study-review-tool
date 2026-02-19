@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Study Review Tool</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
+
 <body>
   <div class="container">
 
@@ -15,6 +17,12 @@
         <div class="grow">
           <div class="title">Study Review</div>
           <div class="muted">Use a default Atlas generated CSV.</div>
+        </div>
+        <div>
+          <button id="themeToggle" class="btn btn-ghost" aria-label="Toggle Dark Mode" style="margin-right:8px;">
+            <!-- Icon will be set by JS -->
+            <span id="themeIcon">🌙</span>
+          </button>
         </div>
         <div>
           <input id="file" type="file" accept=".csv,text/csv" class="btn" style="padding:8px;" />
@@ -36,7 +44,8 @@
       <div class="card">
         <div class="row" style="justify-content:space-between;">
           <div>
-            <div class="title" style="margin-bottom:2px;">Reviewing <span id="pos">-</span> of <span id="total">-</span></div>
+            <div class="title" style="margin-bottom:2px;">Reviewing <span id="pos">-</span> of <span id="total">-</span>
+            </div>
             <div class="muted">
               Reviewed: <b id="cReviewed">0</b> &nbsp;|&nbsp;
               Keep: <b id="cKeep">0</b> &nbsp;|&nbsp;
@@ -54,10 +63,13 @@
         </div>
 
         <div style="margin-top:12px;">
-          <div class="progress"><div id="bar" class="bar"></div></div>
+          <div class="progress">
+            <div id="bar" class="bar"></div>
+          </div>
           <div id="gotoError" class="error" style="display:none;"></div>
           <div class="hint" style="margin-top:8px;">
-            Shortcuts: <span class="kbd">Y</span>=Keep, <span class="kbd">N</span>=Discard, <span class="kbd">←</span>=Prev, <span class="kbd">→</span>=Next
+            Shortcuts: <span class="kbd">Y</span>=Keep, <span class="kbd">N</span>=Discard, <span
+              class="kbd">←</span>=Prev, <span class="kbd">→</span>=Next
           </div>
         </div>
       </div>
@@ -123,7 +135,7 @@
         <div style="margin-top:10px;">
           <div class="hlbar">
             <input id="kwInput" type="text" placeholder="Find / highlight keyword…" class="btn"
-                   style="padding:10px 12px; width:280px; text-align:left; font-weight:600;" />
+              style="padding:10px 12px; width:280px; text-align:left; font-weight:600;" />
             <select id="kwColor" class="btn" style="padding:10px 12px; font-weight:700;">
               <option value="yellow">Yellow</option>
               <option value="green">Green</option>
@@ -160,7 +172,11 @@
   <!-- CSV parser dependency (kept simple: CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
+  <!-- Theme logic -->
+  <script type="module" src="./js/theme.js"></script>
+
   <!-- App entrypoint -->
   <script type="module" src="./js/main.js"></script>
 </body>
+
 </html>
