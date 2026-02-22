@@ -1,17 +1,49 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Study Review Tool</title>
+
+  <!-- Main styles live here -->
   <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Page-only: wider canvas + top nav -->
+  <style>
+    /* Wider canvas (match Overview) */
+    .container {
+      max-width: 1375px;
+    }
+
+    /* Top Navigation */
+    .topNav {
+      width: 100%;
+      padding: 14px 0;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 18px;
+    }
+    .topNav a { text-decoration: none; color: var(--muted); }
+    .topNav a:hover { color: var(--text); }
+    .topNav .active { color: var(--text); cursor: default; }
+    .topNav .navDivider { margin: 0 10px; color: #d1d5db; }
+  </style>
 </head>
 
 <body>
+  <!-- Top navigation -->
+  <div class="topNav">
+    <span class="active">Review</span>
+    <span class="navDivider">|</span>
+    <a href="./overview.html">Overview</a>
+  </div>
+
   <div class="container">
 
-    <!-- Upload Card -->
+    <!-- Upload -->
     <div class="card">
       <div class="row">
         <div class="grow">
@@ -19,32 +51,20 @@
           <div class="muted">Use a default Atlas generated CSV.</div>
         </div>
         <div>
-          <button id="themeToggle" class="btn btn-ghost" aria-label="Toggle Dark Mode" style="margin-right:8px;">
-            <!-- Icon will be set by JS -->
-            <span id="themeIcon">🌙</span>
-          </button>
-        </div>
-        <div>
           <input id="file" type="file" accept=".csv,text/csv" class="btn" style="padding:8px;" />
         </div>
       </div>
       <div id="loadError" class="error" style="display:none;"></div>
-
-      <div class="hint" style="margin-top:10px;">
-        Required columns:
-        <span class="kbd">row_id</span>,
-        <span class="kbd">accession_number</span>,
-        <span class="kbd">patient_id</span>,
-        <span class="kbd">deid_english_report</span>
-      </div>
     </div>
 
     <div id="app" style="display:none;">
+
       <!-- Header / progress -->
       <div class="card">
         <div class="row" style="justify-content:space-between;">
           <div>
-            <div class="title" style="margin-bottom:2px;">Reviewing <span id="pos">-</span> of <span id="total">-</span>
+            <div class="title" style="margin-bottom:2px;">
+              Reviewing <span id="pos">—</span> of <span id="total">—</span>
             </div>
             <div class="muted">
               Reviewed: <b id="cReviewed">0</b> &nbsp;|&nbsp;
@@ -63,13 +83,10 @@
         </div>
 
         <div style="margin-top:12px;">
-          <div class="progress">
-            <div id="bar" class="bar"></div>
-          </div>
+          <div class="progress"><div id="bar" class="bar"></div></div>
           <div id="gotoError" class="error" style="display:none;"></div>
           <div class="hint" style="margin-top:8px;">
-            Shortcuts: <span class="kbd">Y</span>=Keep, <span class="kbd">N</span>=Discard, <span
-              class="kbd">←</span>=Prev, <span class="kbd">→</span>=Next
+            Shortcuts: <span class="kbd">Y</span>=Keep, <span class="kbd">N</span>=Discard, <span class="kbd">←</span>=Prev, <span class="kbd">→</span>=Next
           </div>
         </div>
       </div>
@@ -79,40 +96,41 @@
         <div class="row" style="justify-content:space-between; align-items:flex-start;">
           <div>
             <div class="title" style="margin-bottom:2px;">
-              Accession Number: <span id="accessionTitle">-</span>
+              Accession Number: <span id="accessionTitle">—</span>
             </div>
           </div>
         </div>
 
         <div class="grid" style="margin-top:10px;">
+
           <div class="field">
             <div class="label">Patient Sex</div>
-            <div id="sex" class="value">-</div>
+            <div id="sex" class="value">—</div>
           </div>
 
           <div class="field">
             <div class="label">Patient Age</div>
-            <div id="age" class="value">-</div>
+            <div id="age" class="value">—</div>
           </div>
 
           <div class="field">
             <div class="label">Modality</div>
-            <div id="modality" class="value">-</div>
+            <div id="modality" class="value">—</div>
           </div>
 
           <div class="field">
             <div class="label">Body Part Examined</div>
-            <div id="bodyPart" class="value">-</div>
+            <div id="bodyPart" class="value">—</div>
           </div>
 
           <div class="field">
             <div class="label">Study Date</div>
-            <div id="date" class="value">-</div>
+            <div id="date" class="value">—</div>
           </div>
 
           <div class="field">
             <div class="label">Institution</div>
-            <div id="institution" class="value">-</div>
+            <div id="institution" class="value">—</div>
           </div>
         </div>
       </div>
@@ -150,7 +168,7 @@
           <div id="kwChips" class="hlchips"></div>
         </div>
 
-        <div id="report" class="report-render" style="margin-top:10px;">-</div>
+        <div id="report" class="report-render" style="margin-top:10px;">—</div>
       </div>
 
       <!-- Controls -->
@@ -166,17 +184,14 @@
           <button id="nextBtn" class="btn">Next →</button>
         </div>
       </div>
+
     </div>
   </div>
 
-  <!-- CSV parser dependency (kept simple: CDN) -->
+  <!-- PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-  <!-- Theme logic -->
-  <script type="module" src="./js/theme.js"></script>
-
-  <!-- App entrypoint -->
+  <!-- App entry -->
   <script type="module" src="./js/main.js"></script>
 </body>
-
 </html>

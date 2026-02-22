@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Study Overview</title>
+
+  <link rel="stylesheet" href="./styles.css" />
+
+  <style>
+    /* Wider canvas (25% increase from 1100px → 1375px) */
+    .container {
+      max-width: 1375px;
+    }
+
+    /* Top Navigation */
+    .topNav {
+      width: 100%;
+      padding: 14px 0;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 18px;
+    }
+    .topNav a { text-decoration: none; color: var(--muted); }
+    .topNav a:hover { color: var(--text); }
+    .topNav .active { color: var(--text); cursor: default; }
+    .topNav .navDivider { margin: 0 10px; color: #d1d5db; }
+
+    .tableWrap { overflow:auto; margin-top:10px; }
+
+    table {
+      width:100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      min-width: 1400px; /* forces horizontal scroll instead of squeezing */
+      background: #fff;
+    }
+
+    th, td { user-select: text; }
+
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 10px;
+      text-align:left;
+      font-size: 13px;
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    th {
+      position: relative;
+      user-select: none;
+      background: #fff;
+    }
+
+    th.sortable { cursor: pointer; }
+
+    .thLabel {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      max-width: 100%;
+    }
+
+    .sortIcon {
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 120ms ease;
+      color: var(--muted);
+      flex: 0 0 auto;
+    }
+
+    th.sortable:hover .sortIcon { opacity: 1; }
+    th.sorted .sortIcon { opacity: 1; color: #111827; }
+
+    .resizer {
+      position:absolute;
+      right:0;
+      top:0;
+      width:10px;
+      height:100%;
+      cursor: col-resize;
+      user-select:none;
+      touch-action:none;
+    }
+
+    .resizer::after{
+      content:"";
+      position:absolute;
+      right:4px;
+      top:20%;
+      width:2px;
+      height:60%;
+      background:#cbd5e1;
+      border-radius:999px;
+      opacity:0.55;
+    }
+
+    th:hover .resizer::after{ opacity: 1; }
+
+    .rowCheck { opacity: 1; }
+
+    tr.selectedRow td {
+      background: #eef2ff !important;
+    }
+
+    td.cellSelected {
+      outline: 2px solid #111827;
+      outline-offset: -2px;
+      background: #e0e7ff !important;
+    }
+
+    .colSelect { width: 44px; }
+    .colDecision { width: 130px; }
+
+    select {
+      padding:8px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      max-width: 100%;
+    }
+
+    .pager {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-end;
+    }
+
+    .nowrap { white-space: nowrap; }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top Navigation -->
+  <div class="topNav">
+    <a href="./index.html">Review</a>
+    <span class="navDivider">|</span>
+    <span class="active">Overview</span>
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <div>
+          <div class="title">Study Overview</div>
+          <div class="muted">Edit decisions in bulk. Syncs with the review page.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <div class="row">
+          <label class="row">
+            <input id="selectAllPage" type="checkbox" />
+            <span class="muted">Select all on page</span>
+          </label>
+
+          <button id="bulkKeep" class="btn btn-keep">Set Keep</button>
+          <button id="bulkDiscard" class="btn btn-discard">Set Discard</button>
+        </div>
+
+        <div class="pager">
+          <button id="prevPage" class="btn">Prev</button>
+          <span class="muted"><span id="pageInfo">-</span></span>
+          <button id="nextPage" class="btn">Next</button>
+        </div>
+      </div>
+
+      <div class="tableWrap">
+        <table id="table">
+          <colgroup id="colgroup"></colgroup>
+          <thead id="thead"></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="./js/overview.js"></script>
+
+</body>
+</html>

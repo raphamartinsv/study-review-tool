@@ -1,9 +1,9 @@
 /**
  * Central, minimal state container.
- * Keeping state in one place makes it easier to refactor later.
  */
 export const state = {
-  studies: [],                 // Array<object> parsed from CSV
+  datasetId: null,             // current datasetId (shared between pages)
+  studies: [],                 // Array<object> parsed from CSV or loaded from IndexedDB
   currentIndex: 0,             // 0-based index into studies
   decisions: new Map(),        // row_id -> { decision: "keep" | "discard" }
   highlightRules: []           // [{ term, color }] max 5
